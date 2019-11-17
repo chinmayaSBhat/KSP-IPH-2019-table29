@@ -1,0 +1,81 @@
+{% extends 'sbadmin/index.html' %}
+
+
+{% block 'content' %}
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <h1 class="h3 mb-1 text-gray-800">Welcome to the beat!</h1>
+            <p class="mb-4">Start your beat from {{ checkpoint }}</p>
+          <!-- Content Row -->
+          <div class="row">
+
+            <div class="col-lg-12">
+
+              <!-- Overflow Hidden -->
+              <div class="card mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Beat Progress</h6>
+                </div>
+                <div class="card-body">
+
+
+                    {% for key in beatDict %}
+
+                     <h3>{{ key.beat.area.area_name }}</h3>
+
+                         <div class="card mb-4 py-3 border-left-success">
+                <div class="card-body">
+                  {% for checkpoint in key.checkpoints %}
+                        {% for attendance in beatDict.attendance %}
+
+                            {% if attendance.checkpoint.id == checkpoint.id%}
+                                {{ checkpoint.check_point_name }} <code>Done</code>
+
+                          {% endif %}
+                            {% endfor %}
+
+                      {{ checkpoint.check_point_name }} <a href="{% url 'main:attendance' checkpoint.id %}" class="btn btn-warning">Click to Make an Entry</a> &nbsp;&nbsp;
+&nbsp;
+
+
+
+                      {% endfor %}
+                </div>
+              </div>
+
+
+
+
+
+                    {% endfor %}
+
+
+                </div>
+              </div>
+
+
+
+            </div>
+
+          </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+<script>
+var x = document.getElementById("demo");
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.watchPosition(showPosition);
+  } else {
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+function showPosition(position) {
+  x.innerHTML = "Latitude: " + position.coords.latitude +
+  "<br>Longitude: " + position.coords.longitude;
+}
+</script>
+{% endblock %}

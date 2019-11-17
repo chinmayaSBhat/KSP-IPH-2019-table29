@@ -1,0 +1,93 @@
+{% extends 'sbadmin/index.html' %}
+
+{% block 'content' %}
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <h1 class="h3 mb-1 text-gray-800">Reporting</h1>
+          <p class="mb-4">Share your experience</p>
+
+        <form method="post" action="{% url 'main:report' %}" enctype="multipart/form-data">
+                      {% csrf_token %}
+          <!-- Content Row -->
+          <div class="row">
+
+            <!-- First Column -->
+            <div class="col-lg-6">
+
+              <!-- Custom Text Color Utilities -->
+              <div class="card shadow mb-6">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Utility </h6>
+                </div>
+                <div class="card-body">
+
+
+                        <label for="#voicefile">Voice Input</label>
+                      <input class="form-control" id="voicefile" type="file" name="voice">
+
+                    <hr/>
+                     <label for="#scenefile">Scene Input</label>
+                     <input  class="form-control" id="scenefile" type="file" name="scene">
+
+
+
+                </div>
+              </div>
+
+
+
+            </div>
+
+               <div class="col-lg-6">
+
+              <!-- Custom Text Color Utilities -->
+              <div class="card shadow mb-6">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Report </h6>
+                </div>
+                <div class="card-body">
+
+
+                    <label for="#crimetype">Crime Type</label>
+                      <select id="crimetype" name="crime_type" class="form-control">
+                          <option value="CRIME 1">Crime 1</option>
+                          <option value="CRIME 2">Crime 2</option>
+                      </select>
+                    <hr/>
+                    <label for="report_t">Report Text</label>
+                    <textarea name="report_text" id="report_t"  class="form-control"></textarea>
+
+
+
+                </div>
+              </div>
+
+
+
+            </div>
+
+
+
+
+          </div>
+
+             <!-- Content Row -->
+
+
+
+
+
+
+                <br/>
+                <br/>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+
+
+                  </form>
+
+        </div>
+
+{% endblock %}

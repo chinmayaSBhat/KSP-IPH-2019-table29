@@ -1,0 +1,71 @@
+{% extends 'sbadmin/index.html' %}
+
+
+{% block 'content' %}
+
+
+<div class="container-fluid">
+        <button class="btn btn-primary" id="beat" type="button" onclick="changeToBeat()">Beat</button>
+    <button class="btn btn-info" id="attendance" type="button"  onclick="changeToAttendance()">Attendance</button>
+
+
+
+        <div id="myGrid" style="height: 500px; width:1000px;" class="ag-theme-balham"></div>
+        <br/>
+</div>
+
+
+
+<script>
+var columnDefs = [
+  {headerName: "Police Station", field: "police_station", sortable:true, filter:true},
+  {headerName: "Beat", field: "beat", sortable:true, filter:true},
+  {headerName: "Area", field: "area", sortable:true, filter:true},
+    {headerName: "Frequency", field: "frequency", sortable:true, filter:true},
+    {headerName:"Member",field:"member", sortable:true, filter:true},
+    {headerName: "Timestamp", field: "visitedAt", sortable:true, filter:true},
+
+];
+    
+// specify the data
+var beatData = [
+     {% for beat in beats %}
+        {beat:" {{ beat.beat }} ", area: "{{ beat.beat.area }}", frequency:" {{ beat.beat.weekly_duty_frequency }}", member:"{{ beat.member }}", police_station: "{{ beat.member.police_station }}" },
+    {% endfor %}
+
+];
+
+var attendenceData = [
+
+    {% for entry in attendances %}
+             {beat:" {{ entry.check_point.beat }} ", area: "{{ entry.check_point.beat.area }}", frequency:" {{ entry.check_point.beat.weekly_duty_frequency }}", member:"{{ entry.member }}", police_station: "{{ entry.member.police_station }}", checkpoints:"{{ entry.check_point }}", visitedAt:{{ entry.time_stamp }} },
+    {% endfor %}
+
+]
+
+
+var rowData = beatData;
+
+function changeToBeat(){
+    rowData = beatData;
+}
+
+function changeToAttendance(){
+    rowData = attendenceData;
+
+}
+
+// let the grid know which columns and what data to use
+var gridOptions = {
+  columnDefs: columnDefs,
+  rowData: rowData
+};
+
+// setup the grid after the page has finished loading
+document.addEventListener('DOMContentLoaded', function() {
+    var gridDiv = document.querySelector('#myGrid');
+    new agGrid.Grid(gridDiv, gridOptions);
+});
+</script>
+
+{% endblock %}

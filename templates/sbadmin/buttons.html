@@ -1,0 +1,78 @@
+{% extends 'sbadmin/index.html' %}
+
+
+{% block 'content' %}
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <h1 class="h3 mb-4 text-gray-800">A small Check !</h1>
+
+          <div class="row">
+
+            <div class="col-lg-12">
+
+             <form method="post" action="{% url 'main:attendance' checkpointDetails.id %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                 <div class="form-group row">
+                     <div class="col-md-6">
+                         <div class="alert alert-danger" id="geoConflict"></div>
+                         <div class="alert alert-success" id="geoLocationOk"></div>
+                            <label for="#testPic">Click your photo to confirm</label>
+                 <input type="file" id="testPic" class="form-control" name="testpic">
+                          <br/>
+                            <button type="submit" id="form_submitter" class="btn btn-primary" disabled="disabled" >Submit</button>
+                     </div>
+
+                     <div class="col-md-6">
+
+                     </div>
+
+                 </div>
+
+             </form>
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+    <script>
+ const CPgeoLat = {{ geolocations.0 }};
+    const CPgeoLong = {{ geolocations.1 }};
+
+
+    </script>
+
+
+    <script>
+
+  if (navigator.geolocation) {
+    navigator.geolocation.watchPosition(showPosition);
+  } else {
+   console.log( "Geolocation is not supported by this browser.");
+  }
+
+function showPosition(position) {
+  console.log("Latitude: " + position.coords.latitude +
+  "<br>Longitude: " + position.coords.longitude);
+  var submitButton = document.getElementById("form_submitter");
+
+  if (
+      Math.floor(position.coords.latitude) == Math.floor(parseFloat({{geolocations.0}})) && Math.floor(position.coords.longitude) == Math.floor(parseFloat({{ geolocations.1 }}))
+  ){
+      submitButton.removeAttribute("disabled");
+      console.log("Ok");
+      document.getElementById("geoLocationOk").innerHTML = "Geolocation matches!";
+  }
+  else {
+      submitButton.setAttribute("disabled","disabled");
+      document.getElementById("geoConflict").innerHTML = "Geolocation is not in the permitted range !";
+  }
+}
+</script>
+        <!-- /.container-fluid -->
+{% endblock %}
